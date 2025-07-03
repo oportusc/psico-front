@@ -1,10 +1,17 @@
 import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 interface MainLayoutProps {
   children: React.ReactNode;
 }
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
+  const location = useLocation();
+
+  const isActive = (path: string) => {
+    return location.pathname === path;
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -17,18 +24,36 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
               </h1>
             </div>
             <nav className="hidden md:flex space-x-8">
-              <a href="#" className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+              <Link 
+                to="/" 
+                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  isActive('/') 
+                    ? 'text-teal-600 bg-teal-50' 
+                    : 'text-gray-500 hover:text-teal-600'
+                }`}
+              >
                 Inicio
-              </a>
-              <a href="#" className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
-                Servicios
-              </a>
-              <a href="#" className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
-                Sobre Nosotros
-              </a>
-              <a href="#" className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
-                Contacto
-              </a>
+              </Link>
+              <Link 
+                to="/sobre-mi" 
+                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  isActive('/sobre-mi') 
+                    ? 'text-teal-600 bg-teal-50' 
+                    : 'text-gray-500 hover:text-teal-600'
+                }`}
+              >
+                Sobre Mi
+              </Link>
+              <Link 
+                to="/agendar-cita" 
+                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  isActive('/agendar-cita') 
+                    ? 'text-teal-600 bg-teal-50' 
+                    : 'text-gray-500 hover:text-teal-600'
+                }`}
+              >
+                Agendar
+              </Link>
             </nav>
           </div>
         </div>

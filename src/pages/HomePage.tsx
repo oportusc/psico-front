@@ -1,72 +1,126 @@
 import React from 'react';
 import { Button } from 'primereact/button';
 import { Card } from 'primereact/card';
+import { Avatar } from 'primereact/avatar';
 import { useNavigate } from 'react-router-dom';
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
   
-  const services = [
-    {
-      title: 'Terapia Individual',
-      description: 'Sesiones personalizadas para abordar problemas específicos y promover el crecimiento personal.',
-      icon: 'pi-user',
-      color: 'blue'
-    },
-    {
-      title: 'Terapia de Pareja',
-      description: 'Ayudamos a las parejas a mejorar su comunicación y resolver conflictos.',
-      icon: 'pi-heart',
-      color: 'pink'
-    },
-    {
-      title: 'Terapia Familiar',
-      description: 'Trabajamos con familias para fortalecer vínculos y resolver dinámicas complejas.',
-      icon: 'pi-users',
-      color: 'green'
-    },
-    {
-      title: 'Psicología Infantil',
-      description: 'Especialistas en el desarrollo emocional y conductual de niños y adolescentes.',
-      icon: 'pi-star',
-      color: 'orange'
-    }
-  ];
+  // const services = [
+  //   {
+  //     title: 'Terapia Individual',
+  //     description: 'Sesiones personalizadas para abordar problemas específicos y promover el crecimiento personal.',
+  //     icon: 'pi-user',
+  //     color: 'blue'
+  //   },
+  //   {
+  //     title: 'Terapia de Pareja',
+  //     description: 'Ayudamos a las parejas a mejorar su comunicación y resolver conflictos.',
+  //     icon: 'pi-heart',
+  //     color: 'pink'
+  //   },
+  //   {
+  //     title: 'Terapia Familiar',
+  //     description: 'Trabajamos con familias para fortalecer vínculos y resolver dinámicas complejas.',
+  //     icon: 'pi-users',
+  //     color: 'green'
+  //   },
+  //   {
+  //     title: 'Psicología Infantil',
+  //     description: 'Especialistas en el desarrollo emocional y conductual de niños y adolescentes.',
+  //     icon: 'pi-star',
+  //     color: 'orange'
+  //   }
+  // ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-gray-50 to-gray-100 text-gray-900 py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              Bienvenido a Consulta Psicológica
-            </h1>
-            <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
-              Tu bienestar mental es nuestra prioridad. Ofrecemos servicios profesionales 
-              de psicología con un enfoque personalizado y compasivo.
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">Carmen Paz Chaparro</h1>
+          <h2 className="text-xl md:text-2xl font-medium mb-6 text-blue-700">Psicóloga Clínica</h2>
+          <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto">
+            Acompañando tu bienestar emocional con experiencia, calidez y compromiso.
+          </p>
+          <Button
+            label="Agendar cita gratuita"
+            icon="pi pi-calendar"
+            className="p-button-lg bg-blue-600 hover:bg-blue-700 border-blue-600"
+            size="large"
+            onClick={() => navigate('/agendar-cita')}
+          />
+        </div>
+      </section>
+
+      {/* Resumen Sobre mí */}
+      <section className="py-10 bg-white">
+        <div className="max-w-2xl mx-auto px-4">
+          <Card className="bg-white border-0 shadow-sm flex flex-col items-center text-center">
+            <Avatar icon="pi pi-user" size="xlarge" className="mb-4" shape="circle" />
+            <h3 className="text-xl font-bold text-gray-900 mb-2">Sobre mí</h3>
+            <p className="text-gray-700 text-base mb-4">
+              Psicóloga clínica con amplia experiencia en consulta individual, familiar y en el ámbito escolar. Mi enfoque es cercano, empático y profesional, acompañando a personas en sus procesos de cambio y bienestar emocional.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                label="Agendar Cita" 
-                icon="pi pi-calendar" 
-                className="p-button-lg p-button-raised bg-blue-600 hover:bg-blue-700 border-blue-600"
-                size="large"
-                onClick={() => navigate('/agendar-cita')}
-              />
-              <Button 
-                label="Conoce Nuestros Servicios" 
-                icon="pi pi-arrow-right" 
-                className="p-button-lg p-button-outlined border-gray-600 text-gray-700 hover:bg-gray-100"
-                size="large"
-              />
-            </div>
-          </div>
+            <Button
+              label="Ver más"
+              icon="pi pi-arrow-right"
+              className="p-button-text text-blue-700"
+              onClick={() => navigate('/sobre-mi')}
+            />
+          </Card>
+        </div>
+      </section>
+
+      {/* Formación académica */}
+      <section className="py-10 bg-gray-50">
+        <div className="max-w-3xl mx-auto px-4">
+          <Card className="bg-white border-0 shadow-sm">
+            <h3 className="text-xl font-bold text-gray-900 mb-4">Formación académica</h3>
+            <ul className="text-gray-700 text-base list-disc pl-6 space-y-2">
+              <li>Licenciatura en Psicología, Universidad Andrés Bello, Viña del Mar.</li>
+              <li>Magíster en Psicodiagnóstico e Intervenciones Terapéuticas, Universidad Andrés Bello, Viña del Mar.</li>
+              <li>Diplomado en Peritaje Psicológico y Social en Contextos Judiciales, Universidad Andrés Bello.</li>
+            </ul>
+          </Card>
+        </div>
+      </section>
+
+      {/* Áreas de experiencia */}
+      <section className="py-10 bg-white">
+        <div className="max-w-3xl mx-auto px-4">
+          <Card className="bg-white border-0 shadow-sm">
+            <h3 className="text-xl font-bold text-gray-900 mb-4">Áreas de experiencia</h3>
+            <ul className="text-gray-700 text-base list-disc pl-6 space-y-2">
+              <li>Consulta clínica individual y familiar</li>
+              <li>Psicología escolar y convivencia</li>
+              <li>Intervención en contextos judiciales</li>
+              <li>Apoyo en cuidados paliativos</li>
+            </ul>
+          </Card>
+        </div>
+      </section>
+
+      {/* Llamado a la acción */}
+      <section className="py-16 bg-gray-100">
+        <div className="max-w-2xl mx-auto px-4 text-center">
+          <h3 className="text-2xl font-bold text-gray-900 mb-4">¿Quieres dar el primer paso hacia tu bienestar emocional?</h3>
+          <p className="text-lg text-gray-700 mb-6">
+            Agenda tu primera sesión gratuita y conversemos.
+          </p>
+          <Button
+            label="Agendar cita gratuita"
+            icon="pi pi-calendar-plus"
+            className="p-button-lg bg-blue-600 hover:bg-blue-700 border-blue-600"
+            size="large"
+            onClick={() => navigate('/agendar-cita')}
+          />
         </div>
       </section>
 
       {/* Services Section */}
-      <section className="py-20 bg-gray-50">
+      {/* <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -94,10 +148,10 @@ const HomePage: React.FC = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Why Choose Us Section */}
-      <section className="py-20 bg-gray-100">
+      {/* <section className="py-20 bg-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -159,7 +213,7 @@ const HomePage: React.FC = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Stats Section */}
       <section className="py-20 bg-gray-200 text-gray-900">

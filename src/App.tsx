@@ -4,6 +4,7 @@ import { apolloClient } from './config/apollo';
 import MainLayout from './layouts/MainLayout';
 import HomePage from './pages/HomePage';
 import FormularioAgendamientoPage from './pages/FormularioAgendamientoPage';
+import SobreMiPage from './pages/SobreMiPage';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/agendar-cita" element={<FormularioAgendamientoPage />} />
+            <Route path="/sobre-mi" element={<SobreMiPage />} />
           </Routes>
         </MainLayout>
       </Router>
