@@ -65,4 +65,24 @@ export interface PaginatedResponse<T> {
   page: number;
   limit: number;
   totalPages: number;
+}
+
+// Formulario de agendamiento de citas
+export interface FormularioAgendamiento {
+  nombre: string;
+  apellidos: string;
+  rut: string;
+  email: string;
+  telefono: string;
+  direccion: string;
+}
+
+// Appointment booking form types
+export interface AppointmentBookingForm {
+  firstName: string;
+  lastName: string;
+  rut: string;
+  email: string;
+  phone: string;
+  address: string;
 } 

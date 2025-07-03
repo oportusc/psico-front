@@ -1,8 +1,11 @@
 import React from 'react';
 import { Button } from 'primereact/button';
 import { Card } from 'primereact/card';
+import { useNavigate } from 'react-router-dom';
 
 const HomePage: React.FC = () => {
+  const navigate = useNavigate();
+  
   const services = [
     {
       title: 'Terapia Individual',
@@ -33,7 +36,7 @@ const HomePage: React.FC = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-purple-700 text-white py-20">
+      <section className="bg-gradient-to-r from-gray-50 to-gray-100 text-gray-900 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
@@ -47,13 +50,14 @@ const HomePage: React.FC = () => {
               <Button 
                 label="Agendar Cita" 
                 icon="pi pi-calendar" 
-                className="p-button-lg p-button-raised"
+                className="p-button-lg p-button-raised bg-blue-600 hover:bg-blue-700 border-blue-600"
                 size="large"
+                onClick={() => navigate('/agendar-cita')}
               />
               <Button 
                 label="Conoce Nuestros Servicios" 
                 icon="pi pi-arrow-right" 
-                className="p-button-lg p-button-outlined p-button-secondary"
+                className="p-button-lg p-button-outlined border-gray-600 text-gray-700 hover:bg-gray-100"
                 size="large"
               />
             </div>
@@ -62,7 +66,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Services Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -76,9 +80,9 @@ const HomePage: React.FC = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {services.map((service, index) => (
-              <Card key={index} className="text-center hover:shadow-lg transition-shadow duration-300">
+              <Card key={index} className="text-center hover:shadow-lg transition-shadow duration-300 bg-white border-0 shadow-sm">
                 <div className="mb-4">
-                  <i className={`${service.icon} text-4xl text-${service.color}-500`}></i>
+                  <i className={`${service.icon} text-4xl text-gray-600`}></i>
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-3">
                   {service.title}
@@ -93,7 +97,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Why Choose Us Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -103,7 +107,7 @@ const HomePage: React.FC = () => {
               <div className="space-y-6">
                 <div className="flex items-start">
                   <div className="flex-shrink-0">
-                    <i className="pi pi-check-circle text-green-500 text-2xl"></i>
+                    <i className="pi pi-check-circle text-gray-600 text-2xl"></i>
                   </div>
                   <div className="ml-4">
                     <h3 className="text-lg font-semibold text-gray-900">Profesionales Certificados</h3>
@@ -112,7 +116,7 @@ const HomePage: React.FC = () => {
                 </div>
                 <div className="flex items-start">
                   <div className="flex-shrink-0">
-                    <i className="pi pi-check-circle text-green-500 text-2xl"></i>
+                    <i className="pi pi-check-circle text-gray-600 text-2xl"></i>
                   </div>
                   <div className="ml-4">
                     <h3 className="text-lg font-semibold text-gray-900">Enfoque Personalizado</h3>
@@ -121,7 +125,7 @@ const HomePage: React.FC = () => {
                 </div>
                 <div className="flex items-start">
                   <div className="flex-shrink-0">
-                    <i className="pi pi-check-circle text-green-500 text-2xl"></i>
+                    <i className="pi pi-check-circle text-gray-600 text-2xl"></i>
                   </div>
                   <div className="ml-4">
                     <h3 className="text-lg font-semibold text-gray-900">Ambiente Seguro</h3>
@@ -130,7 +134,7 @@ const HomePage: React.FC = () => {
                 </div>
                 <div className="flex items-start">
                   <div className="flex-shrink-0">
-                    <i className="pi pi-check-circle text-green-500 text-2xl"></i>
+                    <i className="pi pi-check-circle text-gray-600 text-2xl"></i>
                   </div>
                   <div className="ml-4">
                     <h3 className="text-lg font-semibold text-gray-900">Resultados Comprobados</h3>
@@ -139,7 +143,7 @@ const HomePage: React.FC = () => {
                 </div>
               </div>
             </div>
-            <div className="bg-white p-8 rounded-lg shadow-lg">
+            <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-200">
               <h3 className="text-2xl font-bold text-gray-900 mb-6">Agenda tu Primera Sesión</h3>
               <p className="text-gray-600 mb-6">
                 Da el primer paso hacia tu bienestar emocional. 
@@ -148,8 +152,9 @@ const HomePage: React.FC = () => {
               <Button 
                 label="Solicitar Cita Gratuita" 
                 icon="pi pi-calendar-plus" 
-                className="w-full p-button-lg"
+                className="w-full p-button-lg bg-blue-600 hover:bg-blue-700 border-blue-600"
                 size="large"
+                onClick={() => navigate('/agendar-cita')}
               />
             </div>
           </div>
@@ -157,24 +162,24 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 bg-blue-600 text-white">
+      <section className="py-20 bg-gray-200 text-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
             <div>
               <div className="text-4xl font-bold mb-2">500+</div>
-              <div className="text-blue-100">Pacientes Atendidos</div>
+              <div className="text-gray-600">Pacientes Atendidos</div>
             </div>
             <div>
               <div className="text-4xl font-bold mb-2">10+</div>
-              <div className="text-blue-100">Años de Experiencia</div>
+              <div className="text-gray-600">Años de Experiencia</div>
             </div>
             <div>
               <div className="text-4xl font-bold mb-2">95%</div>
-              <div className="text-blue-100">Satisfacción del Paciente</div>
+              <div className="text-gray-600">Satisfacción del Paciente</div>
             </div>
             <div>
               <div className="text-4xl font-bold mb-2">24/7</div>
-              <div className="text-blue-100">Soporte Disponible</div>
+              <div className="text-gray-600">Soporte Disponible</div>
             </div>
           </div>
         </div>
