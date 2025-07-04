@@ -1,119 +1,119 @@
 import { gql } from '@apollo/client';
 
-// Tipos GraphQL para usuarios
+// GraphQL types for users
 export const USER_FRAGMENT = gql`
-  fragment UserFragment on Usuario {
+  fragment UserFragment on User {
     id
-    nombre
-    apellidos
+    firstName
+    lastName
     rut
-    correo
-    telefono
-    direccion
+    email
+    phone
+    address
     createdAt
     updatedAt
   }
 `;
 
-// Query para obtener usuarios
+// Query to get users
 export const GET_USERS = gql`
-  query GetUsuarios {
-    usuarios {
+  query GetUsers {
+    users {
       ...UserFragment
     }
   }
   ${USER_FRAGMENT}
 `;
 
-// Query para obtener un usuario por ID
+// Query to get a user by ID
 export const GET_USER_BY_ID = gql`
-  query GetUsuarioById($id: ID!) {
-    usuario(id: $id) {
+  query GetUserById($id: ID!) {
+    user(id: $id) {
       ...UserFragment
     }
   }
   ${USER_FRAGMENT}
 `;
 
-// Mutación para crear un usuario
+// Mutation to create a user
 export const CREATE_USER = gql`
-  mutation CreateUsuario($createUsuarioInput: CreateUsuarioInput!) {
-    createUsuario(createUsuarioInput: $createUsuarioInput) {
+  mutation CreateUser($createUserInput: CreateUserInput!) {
+    createUser(createUserInput: $createUserInput) {
       ...UserFragment
     }
   }
   ${USER_FRAGMENT}
 `;
 
-// Mutación para actualizar un usuario
+// Mutation to update a user
 export const UPDATE_USER = gql`
-  mutation UpdateUsuario($id: ID!, $input: UpdateUsuarioInput!) {
-    updateUsuario(id: $id, input: $input) {
+  mutation UpdateUser($id: ID!, $input: UpdateUserInput!) {
+    updateUser(id: $id, input: $input) {
       ...UserFragment
     }
   }
   ${USER_FRAGMENT}
 `;
 
-// Mutación para eliminar un usuario
+// Mutation to delete a user
 export const DELETE_USER = gql`
-  mutation DeleteUsuario($id: ID!) {
-    deleteUsuario(id: $id) {
+  mutation DeleteUser($id: ID!) {
+    deleteUser(id: $id) {
       id
     }
   }
 `;
 
-// Tipos TypeScript para las operaciones
-export interface Usuario {
+// TypeScript types for operations
+export interface User {
   id: string;
-  nombre: string;
-  apellidos: string;
+  firstName: string;
+  lastName: string;
   rut: string;
-  correo: string;
-  telefono: string;
-  direccion?: string;
+  email: string;
+  phone: string;
+  address?: string;
   createdAt: string;
   updatedAt: string;
 }
 
-export interface CreateUsuarioInput {
-  nombre: string;
-  apellidos: string;
+export interface CreateUserInput {
+  firstName: string;
+  lastName: string;
   rut: string;
-  correo: string;
-  telefono: string;
-  direccion?: string;
+  email: string;
+  phone: string;
+  address?: string;
 }
 
-export interface UpdateUsuarioInput {
-  nombre?: string;
-  apellidos?: string;
+export interface UpdateUserInput {
+  firstName?: string;
+  lastName?: string;
   rut?: string;
-  correo?: string;
-  telefono?: string;
-  direccion?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
 }
 
-// Respuestas de las operaciones
-export interface GetUsuariosResponse {
-  usuarios: Usuario[];
+// Operation responses
+export interface GetUsersResponse {
+  users: User[];
 }
 
-export interface GetUsuarioByIdResponse {
-  usuario: Usuario;
+export interface GetUserByIdResponse {
+  user: User;
 }
 
-export interface CreateUsuarioResponse {
-  createUsuario: Usuario;
+export interface CreateUserResponse {
+  createUser: User;
 }
 
-export interface UpdateUsuarioResponse {
-  updateUsuario: Usuario;
+export interface UpdateUserResponse {
+  updateUser: User;
 }
 
-export interface DeleteUsuarioResponse {
-  deleteUsuario: {
+export interface DeleteUserResponse {
+  deleteUser: {
     id: string;
   };
 } 

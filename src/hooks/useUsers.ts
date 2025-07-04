@@ -5,110 +5,110 @@ import {
   DELETE_USER, 
   GET_USERS, 
   GET_USER_BY_ID,
-  type CreateUsuarioInput,
-  type UpdateUsuarioInput,
-  type CreateUsuarioResponse,
-  type UpdateUsuarioResponse,
-  type DeleteUsuarioResponse,
-  type GetUsuariosResponse,
-  type GetUsuarioByIdResponse
+  type CreateUserInput,
+  type UpdateUserInput,
+  type CreateUserResponse,
+  type UpdateUserResponse,
+  type DeleteUserResponse,
+  type GetUsersResponse,
+  type GetUserByIdResponse
 } from '../graphql/operations';
 
-export const useUsuarios = () => {
+export const useUsers = () => {
   const client = useApolloClient();
 
-  // Query para obtener todos los usuarios
-  const { data: usuariosData, loading: usuariosLoading, error: usuariosError, refetch: refetchUsuarios } = useQuery<GetUsuariosResponse>(GET_USERS);
+  // Query to get all users
+  const { data: usersData, loading: usersLoading, error: usersError, refetch: refetchUsers } = useQuery<GetUsersResponse>(GET_USERS);
 
-  // Query para obtener un usuario por ID
-  const getUsuarioById = (id: string) => {
-    return useQuery<GetUsuarioByIdResponse>(GET_USER_BY_ID, {
+  // Query to get a user by ID
+  const getUserById = (id: string) => {
+    return useQuery<GetUserByIdResponse>(GET_USER_BY_ID, {
       variables: { id },
       skip: !id
     });
   };
 
-  // Mutación para crear usuario
-  const [createUsuarioMutation, { loading: createLoading }] = useMutation<CreateUsuarioResponse, { createUsuarioInput: CreateUsuarioInput }>(CREATE_USER, {
+  // Mutation to create user
+  const [createUserMutation, { loading: createLoading }] = useMutation<CreateUserResponse, { createUserInput: CreateUserInput }>(CREATE_USER, {
     onCompleted: (data) => {
       client.cache.modify({
         fields: {
-          usuarios(existingUsuarios = []) {
-            const newUsuarioRef = client.cache.writeFragment({
-              data: data.createUsuario,
+          users(existingUsers = []) {
+            const newUserRef = client.cache.writeFragment({
+              data: data.createUser,
               fragment: CREATE_USER
             });
-            return [...existingUsuarios, newUsuarioRef];
+            return [...existingUsers, newUserRef];
           }
         }
       });
     },
     onError: (error) => {
-      console.error('Error al crear usuario:', error);
+      console.error('Error creating user:', error);
     }
   });
 
-  // Mutación para actualizar usuario
-  const [updateUsuarioMutation, { loading: updateLoading }] = useMutation<UpdateUsuarioResponse, { id: string; input: UpdateUsuarioInput }>(UPDATE_USER, {
+  // Mutation to update user
+  const [updateUserMutation, { loading: updateLoading }] = useMutation<UpdateUserResponse, { id: string; input: UpdateUserInput }>(UPDATE_USER, {
     onCompleted: (data) => {
       client.cache.modify({
-        id: client.cache.identify({ __typename: 'Usuario', id: data.updateUsuario.id }),
+        id: client.cache.identify({ __typename: 'User', id: data.updateUser.id }),
         fields: {
-          nombre: () => data.updateUsuario.nombre,
-          apellidos: () => data.updateUsuario.apellidos,
-          rut: () => data.updateUsuario.rut,
-          correo: () => data.updateUsuario.correo,
-          telefono: () => data.updateUsuario.telefono,
-          direccion: () => data.updateUsuario.direccion,
-          updatedAt: () => data.updateUsuario.updatedAt
+          firstName: () => data.updateUser.firstName,
+          lastName: () => data.updateUser.lastName,
+          rut: () => data.updateUser.rut,
+          email: () => data.updateUser.email,
+          phone: () => data.updateUser.phone,
+          address: () => data.updateUser.address,
+          updatedAt: () => data.updateUser.updatedAt
         }
       });
     },
     onError: (error) => {
-      console.error('Error al actualizar usuario:', error);
+      console.error('Error updating user:', error);
     }
   });
 
-  // Mutación para eliminar usuario
-  const [deleteUsuarioMutation, { loading: deleteLoading }] = useMutation<DeleteUsuarioResponse, { id: string }>(DELETE_USER, {
+  // Mutation to delete user
+  const [deleteUserMutation, { loading: deleteLoading }] = useMutation<DeleteUserResponse, { id: string }>(DELETE_USER, {
     onCompleted: (data) => {
-      client.cache.evict({ id: client.cache.identify({ __typename: 'Usuario', id: data.deleteUsuario.id }) });
+      client.cache.evict({ id: client.cache.identify({ __typename: 'User', id: data.deleteUser.id }) });
       client.cache.gc();
     },
     onError: (error) => {
-      console.error('Error al eliminar usuario:', error);
+      console.error('Error deleting user:', error);
     }
   });
 
-  // Funciones para manejar las operaciones
-  const createUsuario = async (usuarioData: CreateUsuarioInput) => {
+  // Functions to handle operations
+  const createUser = async (userData: CreateUserInput) => {
     try {
-      const result = await createUsuarioMutation({
-        variables: { createUsuarioInput: usuarioData }
+      const result = await createUserMutation({
+        variables: { createUserInput: userData }
       });
-      return { success: true, data: result.data?.createUsuario };
+      return { success: true, data: result.data?.createUser };
     } catch (error) {
       return { success: false, error };
     }
   };
 
-  const updateUsuario = async (id: string, usuarioData: UpdateUsuarioInput) => {
+  const updateUser = async (id: string, userData: UpdateUserInput) => {
     try {
-      const result = await updateUsuarioMutation({
-        variables: { id, input: usuarioData }
+      const result = await updateUserMutation({
+        variables: { id, input: userData }
       });
-      return { success: true, data: result.data?.updateUsuario };
+      return { success: true, data: result.data?.updateUser };
     } catch (error) {
       return { success: false, error };
     }
   };
 
-  const deleteUsuario = async (id: string) => {
+  const deleteUser = async (id: string) => {
     try {
-      const result = await deleteUsuarioMutation({
+      const result = await deleteUserMutation({
         variables: { id }
       });
-      return { success: true, data: result.data?.deleteUsuario };
+      return { success: true, data: result.data?.deleteUser };
     } catch (error) {
       return { success: false, error };
     }
@@ -116,16 +116,16 @@ export const useUsuarios = () => {
 
   return {
     // Data
-    usuarios: usuariosData?.usuarios || [],
-    usuariosLoading,
-    usuariosError,
+    users: usersData?.users || [],
+    usersLoading,
+    usersError,
     
     // Operations
-    createUsuario,
-    updateUsuario,
-    deleteUsuario,
-    getUsuarioById,
-    refetchUsuarios,
+    createUser,
+    updateUser,
+    deleteUser,
+    getUserById,
+    refetchUsers,
     
     // Loading states
     createLoading,

@@ -46,9 +46,9 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                 Inicio
               </Link>
               <Link 
-                to="/sobre-mi" 
+                to="/about-me" 
                 className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  isActive('/sobre-mi') 
+                  isActive('/about-me') 
                     ? 'text-teal-600 bg-teal-50' 
                     : 'text-gray-500 hover:text-teal-600'
                 }`}
@@ -56,9 +56,9 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                 Sobre Mi
               </Link>
               <Link 
-                to="/agendar-cita" 
+                to="/schedule-appointment" 
                 className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  isActive('/agendar-cita') 
+                  isActive('/schedule-appointment') 
                     ? 'text-teal-600 bg-teal-50' 
                     : 'text-gray-500 hover:text-teal-600'
                 }`}

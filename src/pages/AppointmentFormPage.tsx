@@ -6,67 +6,67 @@ import { Button } from 'primereact/button';
 import { Card } from 'primereact/card';
 import { Message } from 'primereact/message';
 import { useNavigate } from 'react-router-dom';
-import { useUsuarios } from '../hooks/useUsers';
+import { useUsers } from '../hooks/useUsers';
 
-// Esquema de validación con Yup
-const esquemaValidacion = Yup.object().shape({
-  nombre: Yup.string()
-    .min(2, 'El nombre debe tener al menos 2 caracteres')
-    .max(50, 'El nombre no puede exceder 50 caracteres')
-    .required('El nombre es requerido'),
-  apellidos: Yup.string()
-    .min(2, 'Los apellidos deben tener al menos 2 caracteres')
-    .max(100, 'Los apellidos no pueden exceder 100 caracteres')
-    .required('Los apellidos son requeridos'),
+// Validation schema with Yup
+const validationSchema = Yup.object().shape({
+  firstName: Yup.string()
+    .min(2, 'First name must be at least 2 characters')
+    .max(50, 'First name cannot exceed 50 characters')
+    .required('First name is required'),
+  lastName: Yup.string()
+    .min(2, 'Last name must be at least 2 characters')
+    .max(100, 'Last name cannot exceed 100 characters')
+    .required('Last name is required'),
   rut: Yup.string()
-    .matches(/^\d{1,2}\.\d{3}\.\d{3}-[\dkK]$/, 'Formato de RUT inválido (ej: 12.345.678-9)')
-    .required('El RUT es requerido'),
-  correo: Yup.string()
-    .email('Formato de correo inválido')
-    .required('El correo es requerido'),
-  telefono: Yup.string()
-    .matches(/^\+?[\d\s\-\(\)]+$/, 'Formato de teléfono inválido')
-    .min(8, 'El teléfono debe tener al menos 8 dígitos')
-    .required('El teléfono es requerido'),
-  direccion: Yup.string()
-    .min(10, 'La dirección debe tener al menos 10 caracteres')
-    .max(200, 'La dirección no puede exceder 200 caracteres')
-    .required('La dirección es requerida'),
+    .matches(/^\d{1,2}\.\d{3}\.\d{3}-[\dkK]$/, 'Invalid RUT format (e.g: 12.345.678-9)')
+    .required('RUT is required'),
+  email: Yup.string()
+    .email('Invalid email format')
+    .required('Email is required'),
+  phone: Yup.string()
+    .matches(/^\+?[\d\s\-\(\)]+$/, 'Invalid phone format')
+    .min(8, 'Phone must be at least 8 digits')
+    .required('Phone is required'),
+  address: Yup.string()
+    .min(10, 'Address must be at least 10 characters')
+    .max(200, 'Address cannot exceed 200 characters')
+    .required('Address is required'),
 });
 
-const FormularioAgendamientoPage: React.FC = () => {
+const AppointmentFormPage: React.FC = () => {
   const navigate = useNavigate();
-  const { createUsuario, createLoading } = useUsuarios();
+  const { createUser, createLoading } = useUsers();
 
-  const valoresIniciales = {
-    nombre: '',
-    apellidos: '',
+  const initialValues = {
+    firstName: '',
+    lastName: '',
     rut: '',
-    correo: '',
-    telefono: '',
-    direccion: '',
+    email: '',
+    phone: '',
+    address: '',
   };
 
-  const manejarEnvio = async (valores: typeof valoresIniciales, { setSubmitting, resetForm }: any) => {
+  const handleSubmit = async (values: typeof initialValues, { setSubmitting, resetForm }: any) => {
     try {
-      const result = await createUsuario({
-        nombre: valores.nombre,
-        apellidos: valores.apellidos,
-        rut: valores.rut,
-        correo: valores.correo,
-        telefono: valores.telefono,
-        direccion: valores.direccion
+      const result = await createUser({
+        firstName: values.firstName,
+        lastName: values.lastName,
+        rut: values.rut,
+        email: values.email,
+        phone: values.phone,
+        address: values.address
       });
 
       if (result.success) {
-        alert('¡Formulario enviado exitosamente! Nos pondremos en contacto contigo pronto.');
+        alert('Form submitted successfully! We will contact you soon.');
         resetForm();
       } else {
-        alert('Error al enviar el formulario. Por favor, intenta nuevamente.');
+        alert('Error submitting form. Please try again.');
       }
     } catch (error) {
       console.error('Error:', error);
-      alert('Error al enviar el formulario. Por favor, intenta nuevamente.');
+      alert('Error submitting form. Please try again.');
     } finally {
       setSubmitting(false);
     }
@@ -75,10 +75,10 @@ const FormularioAgendamientoPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Botón de regreso */}
+        {/* Back button */}
         <div className="mb-6">
           <Button
-            label="Volver al Inicio"
+            label="Back to Home"
             icon="pi pi-arrow-left"
             className="p-button-text p-button-secondary"
             onClick={() => navigate('/')}
@@ -87,73 +87,73 @@ const FormularioAgendamientoPage: React.FC = () => {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Agenda tu Cita Gratuita
+            Schedule Your Free Appointment
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Completa el siguiente formulario para agendar tu primera sesión psicológica 
-            completamente gratuita. Nos pondremos en contacto contigo para confirmar la cita.
+            Complete the following form to schedule your first psychological session 
+            completely free. We will contact you to confirm the appointment.
           </p>
         </div>
-        {/* Formulario */}
+        {/* Form */}
         <Card className="shadow-sm border border-gray-200 bg-white">
           <Formik
-            initialValues={valoresIniciales}
-            validationSchema={esquemaValidacion}
-            onSubmit={manejarEnvio}
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
           >
             {({ values, errors, touched, isSubmitting, handleChange, handleBlur }) => (
               <Form className="space-y-6">
-                {/* Información Personal */}
+                {/* Personal Information */}
                 <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">
                     <i className="pi pi-user mr-2 text-gray-600"></i>
-                    Información Personal
+                    Personal Information
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {/* Nombre */}
+                    {/* First Name */}
                     <div className="space-y-2">
-                      <label htmlFor="nombre" className="block text-sm font-medium text-gray-700">
-                        Nombre *
+                      <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
+                        First Name *
                       </label>
                       <div className="p-inputgroup">
                         <span className="p-inputgroup-addon">
                           <i className="pi pi-user"></i>
                         </span>
                         <InputText
-                          id="nombre"
-                          name="nombre"
-                          value={values.nombre}
+                          id="firstName"
+                          name="firstName"
+                          value={values.firstName}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          className={`w-full ${errors.nombre && touched.nombre ? 'p-invalid' : ''}`}
-                          placeholder="Ingresa tu nombre"
+                          className={`w-full ${errors.firstName && touched.firstName ? 'p-invalid' : ''}`}
+                          placeholder="Enter your first name"
                         />
                       </div>
-                      {errors.nombre && touched.nombre && (
-                        <Message severity="error" text={errors.nombre} className="text-sm" />
+                      {errors.firstName && touched.firstName && (
+                        <Message severity="error" text={errors.firstName} className="text-sm" />
                       )}
                     </div>
-                    {/* Apellidos */}
+                    {/* Last Name */}
                     <div className="space-y-2">
-                      <label htmlFor="apellidos" className="block text-sm font-medium text-gray-700">
-                        Apellidos *
+                      <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
+                        Last Name *
                       </label>
                       <div className="p-inputgroup">
                         <span className="p-inputgroup-addon">
                           <i className="pi pi-user"></i>
                         </span>
                         <InputText
-                          id="apellidos"
-                          name="apellidos"
-                          value={values.apellidos}
+                          id="lastName"
+                          name="lastName"
+                          value={values.lastName}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          className={`w-full ${errors.apellidos && touched.apellidos ? 'p-invalid' : ''}`}
-                          placeholder="Ingresa tus apellidos"
+                          className={`w-full ${errors.lastName && touched.lastName ? 'p-invalid' : ''}`}
+                          placeholder="Enter your last name"
                         />
                       </div>
-                      {errors.apellidos && touched.apellidos && (
-                        <Message severity="error" text={errors.apellidos} className="text-sm" />
+                      {errors.lastName && touched.lastName && (
+                        <Message severity="error" text={errors.lastName} className="text-sm" />
                       )}
                     </div>
                   </div>
@@ -181,109 +181,109 @@ const FormularioAgendamientoPage: React.FC = () => {
                     )}
                   </div>
                 </div>
-                {/* Información de Contacto */}
+                {/* Contact Information */}
                 <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">
                     <i className="pi pi-envelope mr-2 text-gray-600"></i>
-                    Información de Contacto
+                    Contact Information
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {/* Correo */}
+                    {/* Email */}
                     <div className="space-y-2">
-                      <label htmlFor="correo" className="block text-sm font-medium text-gray-700">
-                        Correo *
+                      <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                        Email *
                       </label>
                       <div className="p-inputgroup">
                         <span className="p-inputgroup-addon">
                           <i className="pi pi-envelope"></i>
                         </span>
                         <InputText
-                          id="correo"
-                          name="correo"
+                          id="email"
+                          name="email"
                           type="email"
-                          value={values.correo}
+                          value={values.email}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          className={`w-full ${errors.correo && touched.correo ? 'p-invalid' : ''}`}
-                          placeholder="tu@email.com"
+                          className={`w-full ${errors.email && touched.email ? 'p-invalid' : ''}`}
+                          placeholder="your@email.com"
                         />
                       </div>
-                      {errors.correo && touched.correo && (
-                        <Message severity="error" text={errors.correo} className="text-sm" />
+                      {errors.email && touched.email && (
+                        <Message severity="error" text={errors.email} className="text-sm" />
                       )}
                     </div>
-                    {/* Teléfono */}
+                    {/* Phone */}
                     <div className="space-y-2">
-                      <label htmlFor="telefono" className="block text-sm font-medium text-gray-700">
-                        Teléfono *
+                      <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+                        Phone *
                       </label>
                       <div className="p-inputgroup">
                         <span className="p-inputgroup-addon">
                           <i className="pi pi-phone"></i>
                         </span>
                         <InputText
-                          id="telefono"
-                          name="telefono"
-                          value={values.telefono}
+                          id="phone"
+                          name="phone"
+                          value={values.phone}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          className={`w-full ${errors.telefono && touched.telefono ? 'p-invalid' : ''}`}
+                          className={`w-full ${errors.phone && touched.phone ? 'p-invalid' : ''}`}
                           placeholder="+56 9 1234 5678"
                         />
                       </div>
-                      {errors.telefono && touched.telefono && (
-                        <Message severity="error" text={errors.telefono} className="text-sm" />
+                      {errors.phone && touched.phone && (
+                        <Message severity="error" text={errors.phone} className="text-sm" />
                       )}
                     </div>
                   </div>
                 </div>
-                {/* Dirección */}
+                {/* Address */}
                 <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">
                     <i className="pi pi-map-marker mr-2 text-gray-600"></i>
-                    Dirección
+                    Address
                   </h3>
                   <div className="space-y-2">
-                    <label htmlFor="direccion" className="block text-sm font-medium text-gray-700">
-                      Dirección Completa *
+                    <label htmlFor="address" className="block text-sm font-medium text-gray-700">
+                      Complete Address *
                     </label>
                     <div className="p-inputgroup">
                       <span className="p-inputgroup-addon">
                         <i className="pi pi-map-marker"></i>
                       </span>
                       <InputText
-                        id="direccion"
-                        name="direccion"
-                        value={values.direccion}
+                        id="address"
+                        name="address"
+                        value={values.address}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        className={`w-full ${errors.direccion && touched.direccion ? 'p-invalid' : ''}`}
-                        placeholder="Calle, número, comuna, ciudad"
+                        className={`w-full ${errors.address && touched.address ? 'p-invalid' : ''}`}
+                        placeholder="Street, number, commune, city"
                       />
                     </div>
-                    {errors.direccion && touched.direccion && (
-                      <Message severity="error" text={errors.direccion} className="text-sm" />
+                    {errors.address && touched.address && (
+                      <Message severity="error" text={errors.address} className="text-sm" />
                     )}
                   </div>
                 </div>
-                {/* Información Adicional */}
+                {/* Additional Information */}
                 <div className="bg-yellow-50 p-4 rounded-lg">
                   <h3 className="text-lg font-semibold text-yellow-900 mb-2">
                     <i className="pi pi-info-circle mr-2"></i>
-                    Información Importante
+                    Important Information
                   </h3>
                   <ul className="text-sm text-yellow-800 space-y-1">
-                    <li>• Tu primera sesión es completamente gratuita</li>
-                    <li>• Nos pondremos en contacto contigo en las próximas 24 horas</li>
-                    <li>• Todos tus datos están protegidos y serán tratados con confidencialidad</li>
-                    <li>• Puedes cancelar o reprogramar tu cita sin costo</li>
+                    <li>• Your first session is completely free</li>
+                    <li>• We will contact you within the next 24 hours</li>
+                    <li>• All your data is protected and will be treated confidentially</li>
+                    <li>• You can cancel or reschedule your appointment at no cost</li>
                   </ul>
                 </div>
-                {/* Botones */}
+                {/* Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4 pt-6">
                   <Button
                     type="submit"
-                    label={isSubmitting || createLoading ? "Enviando..." : "Agendar Cita Gratuita"}
+                    label={isSubmitting || createLoading ? "Submitting..." : "Schedule Free Appointment"}
                     icon={isSubmitting || createLoading ? "pi pi-spinner pi-spin" : "pi pi-calendar-plus"}
                     className="p-button-lg p-button-success flex-1"
                     disabled={isSubmitting || createLoading}
@@ -291,7 +291,7 @@ const FormularioAgendamientoPage: React.FC = () => {
                   />
                   <Button
                     type="button"
-                    label="Limpiar Formulario"
+                    label="Clear Form"
                     icon="pi pi-refresh"
                     className="p-button-lg p-button-outlined p-button-secondary"
                     onClick={() => window.location.reload()}
@@ -302,10 +302,10 @@ const FormularioAgendamientoPage: React.FC = () => {
             )}
           </Formik>
         </Card>
-        {/* Footer informativo */}
+        {/* Informational footer */}
         <div className="mt-8 text-center">
           <p className="text-gray-600">
-            ¿Tienes alguna pregunta? Contáctanos al{' '}
+            Do you have any questions? Contact us at{' '}
             <a href="tel:+56912345678" className="text-blue-600 hover:text-blue-800 font-semibold">
               +56 9 1234 5678
             </a>
@@ -316,4 +316,4 @@ const FormularioAgendamientoPage: React.FC = () => {
   );
 };
 
-export default FormularioAgendamientoPage; 
+export default AppointmentFormPage; 

@@ -67,7 +67,7 @@ const HomePage: React.FC = () => {
               label="Ver más"
               icon="pi pi-arrow-right"
               className="p-button-text text-blue-700"
-              onClick={() => navigate('/sobre-mi')}
+              onClick={() => navigate('/about-me')}
             />
           </Card>
         </div>
@@ -114,7 +114,7 @@ const HomePage: React.FC = () => {
             icon="pi pi-calendar-plus"
             className="p-button-lg bg-blue-600 hover:bg-blue-700 border-blue-600"
             size="large"
-            onClick={() => navigate('/agendar-cita')}
+            onClick={() => navigate('/schedule-appointment')}
           />
         </div>
       </section>
